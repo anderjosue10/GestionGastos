@@ -2,255 +2,264 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
     <title>Dashboard - FinanzasPro</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="app-container">
-        <!-- Sidebar -->
-        <div class="sidebar glass-effect">
-            <div class="sidebar-header">
-                <h2><i class="fas fa-chart-line"></i> Finanzas<span>Pro</span></h2>
+    <!-- Botón Hamburguesa para móvil -->
+    <button class="menu-toggle" id="menuToggle" onclick="toggleMenu()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Overlay para cerrar menú -->
+    <div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
+
+    <!-- Sidebar oculto en móvil -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-close" onclick="closeMenu()">
+                <i class="fas fa-times"></i>
             </div>
-            <nav class="sidebar-nav">
-                <button class="nav-btn active" onclick="showSection('dashboard')">
-                    <i class="fas fa-home"></i> <span>Inicio</span>
-                </button>
-                <button class="nav-btn" onclick="showSection('transactions')">
-                    <i class="fas fa-exchange-alt"></i> <span>Movimientos</span>
-                </button>
-                <button class="nav-btn" onclick="showSection('reports')">
-                    <i class="fas fa-chart-pie"></i> <span>Estadísticas</span>
-                </button>
-                <button class="nav-btn" onclick="showSection('categories')">
-                    <i class="fas fa-tags"></i> <span>Categorías</span>
-                </button>
-            </nav>
-            <div class="sidebar-footer">
-                <div class="user-info-sidebar">
-                    <i class="fas fa-user-circle"></i>
-                    <div>
-                        <span id="sidebarUserName"></span>
-                        <small>Bienvenido</small>
-                    </div>
-                </div>
-                <button onclick="logout()" class="logout-sidebar-btn">
-                    <i class="fas fa-sign-out-alt"></i> <span>Cerrar Sesión</span>
-                </button>
-            </div>
+            <h2><i class="fas fa-chart-line"></i> Finanzas<span>Pro</span></h2>
         </div>
-
-        <!-- Main Content -->
-        <div class="main-content">
-            <!-- Sección Dashboard -->
-            <div id="dashboardSection" class="section active">
-                <div class="section-header">
-                    <div>
-                        <h1><i class="fas fa-chart-line"></i> Resumen Financiero</h1>
-                        <p>Visualiza el estado de tus finanzas</p>
-                    </div>
-                    <button onclick="showAddTransactionModal()" class="btn-primary pulse">
-                        <i class="fas fa-plus"></i> Nuevo Movimiento
-                    </button>
-                </div>
-
-                <!-- Stats Cards Animados -->
-                <div class="stats-grid">
-                    <div class="stat-card animate-scale">
-                        <div class="stat-icon">
-                            <i class="fas fa-wallet"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3>Balance Total</h3>
-                            <p id="totalBalance" class="balance-value">$0.00</p>
-                        </div>
-                    </div>
-                    <div class="stat-card income-card animate-scale">
-                        <div class="stat-icon">
-                            <i class="fas fa-arrow-up"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3>Ingresos</h3>
-                            <p id="totalIncome">$0.00</p>
-                        </div>
-                    </div>
-                    <div class="stat-card expense-card animate-scale">
-                        <div class="stat-icon">
-                            <i class="fas fa-arrow-down"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3>Gastos</h3>
-                            <p id="totalExpense">$0.00</p>
-                        </div>
-                    </div>
-                    <div class="stat-card animate-scale">
-                        <div class="stat-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3>Ahorro</h3>
-                            <p id="savingsRate">0%</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Gráficos Mejorados -->
-                <div class="charts-grid">
-                    <div class="chart-card glass-card">
-                        <div class="chart-header">
-                            <h3><i class="fas fa-calendar-alt"></i> Evolución 6 Meses</h3>
-                            <div class="chart-legend">
-                                <span><i class="fas fa-circle" style="color:#48bb78"></i> Ingresos</span>
-                                <span><i class="fas fa-circle" style="color:#f56565"></i> Gastos</span>
-                            </div>
-                        </div>
-                        <canvas id="monthlyChart"></canvas>
-                    </div>
-                    <div class="chart-card glass-card">
-                        <h3><i class="fas fa-chart-pie"></i> Distribución de Gastos</h3>
-                        <canvas id="categoryChart"></canvas>
-                    </div>
-                </div>
-
-                <!-- Top Gastos -->
-                <div class="top-expenses glass-card">
-                    <h3><i class="fas fa-fire"></i> Top Gastos del Mes</h3>
-                    <div id="topExpensesList"></div>
+        <nav class="sidebar-nav">
+            <button class="nav-btn active" onclick="showSection('dashboard'); closeMenu();">
+                <i class="fas fa-home"></i> <span>Inicio</span>
+            </button>
+            <button class="nav-btn" onclick="showSection('transactions'); closeMenu();">
+                <i class="fas fa-exchange-alt"></i> <span>Movimientos</span>
+            </button>
+            <button class="nav-btn" onclick="showSection('reports'); closeMenu();">
+                <i class="fas fa-chart-pie"></i> <span>Estadísticas</span>
+            </button>
+            <button class="nav-btn" onclick="showSection('categories'); closeMenu();">
+                <i class="fas fa-tags"></i> <span>Categorías</span>
+            </button>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-info-sidebar">
+                <i class="fas fa-user-circle"></i>
+                <div>
+                    <span id="sidebarUserName"></span>
+                    <small>Bienvenido</small>
                 </div>
             </div>
-
-            <!-- Sección Movimientos con Pestañas -->
-            <div id="transactionsSection" class="section">
-                <div class="section-header">
-                    <h1><i class="fas fa-exchange-alt"></i> Mis Movimientos</h1>
-                </div>
-
-                <!-- Pestañas de Gastos/Ingresos -->
-                <div class="transaction-tabs">
-                    <button class="trans-tab active" onclick="showTransactionTab('all')">
-                        <i class="fas fa-list"></i> Todos
-                    </button>
-                    <button class="trans-tab" onclick="showTransactionTab('income')">
-                        <i class="fas fa-arrow-up" style="color:#48bb78"></i> Ingresos
-                    </button>
-                    <button class="trans-tab" onclick="showTransactionTab('expense')">
-                        <i class="fas fa-arrow-down" style="color:#f56565"></i> Gastos
-                    </button>
-                </div>
-
-                <!-- Filtros Avanzados -->
-                <div class="filters-bar">
-                    <div class="filter-group">
-                        <i class="fas fa-calendar"></i>
-                        <input type="month" id="filterMonth" onchange="filterTransactionsUI()">
-                    </div>
-                    <div class="filter-group">
-                        <i class="fas fa-search"></i>
-                        <input type="text" id="searchDesc" placeholder="Buscar..." onkeyup="filterTransactionsUI()">
-                    </div>
-                    <div class="filter-group">
-                        <i class="fas fa-tag"></i>
-                        <select id="filterCategory" onchange="filterTransactionsUI()">
-                            <option value="all">Todas las categorías</option>
-                            <option value="Comida">🍔 Comida</option>
-                            <option value="Transporte">🚗 Transporte</option>
-                            <option value="Entretenimiento">🎬 Entretenimiento</option>
-                            <option value="Salud">💊 Salud</option>
-                            <option value="Educación">📚 Educación</option>
-                            <option value="Hogar">🏠 Hogar</option>
-                            <option value="Salario">💰 Salario</option>
-                            <option value="Inversiones">📈 Inversiones</option>
-                            <option value="Servicios">💡 Servicios</option>
-                        </select>
-                    </div>
-                    <button onclick="exportData()" class="btn-secondary">
-                        <i class="fas fa-download"></i> Exportar
-                    </button>
-                    <button onclick="deleteAllData()" class="btn-danger">
-                        <i class="fas fa-trash-alt"></i> Limpiar Todo
-                    </button>
-                </div>
-
-                <!-- Lista de Transacciones -->
-                <div id="transactionList" class="transaction-list"></div>
-            </div>
-
-            <!-- Sección Estadísticas Detalladas -->
-            <div id="reportsSection" class="section">
-                <div class="section-header">
-                    <h1><i class="fas fa-chart-pie"></i> Estadísticas Avanzadas</h1>
-                    <div class="report-controls">
-                        <div class="date-range">
-                            <i class="fas fa-calendar-alt"></i>
-                            <input type="date" id="reportStartDate">
-                            <span>→</span>
-                            <input type="date" id="reportEndDate">
-                        </div>
-                        <button onclick="generateReport()" class="btn-primary">
-                            <i class="fas fa-sync-alt"></i> Actualizar
-                        </button>
-                    </div>
-                </div>
-
-                <div class="stats-summary">
-                    <div class="summary-card">
-                        <i class="fas fa-calendar-day"></i>
-                        <div>
-                            <h4>Total Días</h4>
-                            <p id="totalDays">0</p>
-                        </div>
-                    </div>
-                    <div class="summary-card">
-                        <i class="fas fa-coins"></i>
-                        <div>
-                            <h4>Promedio Diario</h4>
-                            <p id="dailyAverage">$0</p>
-                        </div>
-                    </div>
-                    <div class="summary-card">
-                        <i class="fas fa-chart-line"></i>
-                        <div>
-                            <h4>Mejor Mes</h4>
-                            <p id="bestMonth">-</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="report-card glass-card">
-                    <h3><i class="fas fa-chart-line"></i> Tendencia de Balance</h3>
-                    <canvas id="trendChart"></canvas>
-                </div>
-
-                <div class="report-grid">
-                    <div class="report-card glass-card">
-                        <h3><i class="fas fa-calendar-day"></i> Resumen Diario</h3>
-                        <div id="dailyReport" class="report-table"></div>
-                    </div>
-                    <div class="report-card glass-card">
-                        <h3><i class="fas fa-calendar-month"></i> Resumen Mensual</h3>
-                        <div id="monthlyReport" class="report-table"></div>
-                    </div>
-                    <div class="report-card glass-card">
-                        <h3><i class="fas fa-tags"></i> Por Categoría</h3>
-                        <div id="categoryReport" class="report-table"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Sección Categorías -->
-            <div id="categoriesSection" class="section">
-                <div class="section-header">
-                    <h1><i class="fas fa-tags"></i> Análisis por Categorías</h1>
-                </div>
-                <div id="categoriesStats" class="categories-grid"></div>
-            </div>
+            <button onclick="logout()" class="logout-sidebar-btn">
+                <i class="fas fa-sign-out-alt"></i> <span>Cerrar Sesión</span>
+            </button>
         </div>
     </div>
 
-     <!-- Modal Nuevo Movimiento - SIN ANIMACIONES -->
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header móvil -->
+        <div class="mobile-header">
+            <button class="mobile-menu-btn" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="mobile-logo">
+                <i class="fas fa-chart-line"></i>
+                <span>FinanzasPro</span>
+            </div>
+            <div class="mobile-user" onclick="showMobileUserMenu()">
+                <i class="fas fa-user-circle"></i>
+            </div>
+        </div>
+
+        <!-- Sección Dashboard -->
+        <div id="dashboardSection" class="section active">
+            <div class="section-header">
+                <div>
+                    <h1><i class="fas fa-chart-line"></i> Resumen</h1>
+                    <p>Estado de tus finanzas</p>
+                </div>
+                <button onclick="showAddTransactionModal()" class="btn-primary pulse">
+                    <i class="fas fa-plus"></i> Nuevo
+                </button>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card animate-scale">
+                    <div class="stat-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Balance</h3>
+                        <p id="totalBalance" class="balance-value">$0.00</p>
+                    </div>
+                </div>
+                <div class="stat-card income-card animate-scale">
+                    <div class="stat-icon">
+                        <i class="fas fa-arrow-up"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Ingresos</h3>
+                        <p id="totalIncome">$0.00</p>
+                    </div>
+                </div>
+                <div class="stat-card expense-card animate-scale">
+                    <div class="stat-icon">
+                        <i class="fas fa-arrow-down"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Gastos</h3>
+                        <p id="totalExpense">$0.00</p>
+                    </div>
+                </div>
+                <div class="stat-card animate-scale">
+                    <div class="stat-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Ahorro</h3>
+                        <p id="savingsRate">0%</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gráficos -->
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3><i class="fas fa-calendar-alt"></i> Evolución</h3>
+                    </div>
+                    <canvas id="monthlyChart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3><i class="fas fa-chart-pie"></i> Gastos</h3>
+                    <canvas id="categoryChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Top Gastos -->
+            <div class="top-expenses">
+                <h3><i class="fas fa-fire"></i> Top Gastos del Mes</h3>
+                <div id="topExpensesList"></div>
+            </div>
+        </div>
+
+        <!-- Sección Movimientos -->
+        <div id="transactionsSection" class="section">
+            <div class="section-header">
+                <h1><i class="fas fa-exchange-alt"></i> Movimientos</h1>
+            </div>
+
+            <!-- Pestañas -->
+            <div class="transaction-tabs">
+                <button class="trans-tab active" onclick="showTransactionTab('all')">
+                    <i class="fas fa-list"></i> Todos
+                </button>
+                <button class="trans-tab" onclick="showTransactionTab('income')">
+                    <i class="fas fa-arrow-up" style="color:#48bb78"></i> Ingresos
+                </button>
+                <button class="trans-tab" onclick="showTransactionTab('expense')">
+                    <i class="fas fa-arrow-down" style="color:#f56565"></i> Gastos
+                </button>
+            </div>
+
+            <!-- Filtros -->
+            <div class="filters-bar">
+                <div class="filter-group">
+                    <i class="fas fa-calendar"></i>
+                    <input type="month" id="filterMonth" onchange="filterTransactionsUI()">
+                </div>
+                <div class="filter-group">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchDesc" placeholder="Buscar..." onkeyup="filterTransactionsUI()">
+                </div>
+                <div class="filter-group">
+                    <i class="fas fa-tag"></i>
+                    <select id="filterCategory" onchange="filterTransactionsUI()">
+                        <option value="all">Todas</option>
+                        <option value="Comida">🍔 Comida</option>
+                        <option value="Transporte">🚗 Transporte</option>
+                        <option value="Entretenimiento">🎬 Entretenimiento</option>
+                        <option value="Salud">💊 Salud</option>
+                        <option value="Educación">📚 Educación</option>
+                        <option value="Hogar">🏠 Hogar</option>
+                        <option value="Salario">💰 Salario</option>
+                    </select>
+                </div>
+                <button onclick="exportData()" class="btn-secondary btn-small">
+                    <i class="fas fa-download"></i>
+                </button>
+                <button onclick="deleteAllData()" class="btn-danger btn-small">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </div>
+
+            <div id="transactionList" class="transaction-list"></div>
+            
+            <button onclick="showAddTransactionModal()" class="fab-button">
+                <i class="fas fa-plus"></i>
+            </button>
+        </div>
+
+        <!-- Sección Estadísticas -->
+        <div id="reportsSection" class="section">
+            <div class="section-header">
+                <h1><i class="fas fa-chart-pie"></i> Estadísticas</h1>
+            </div>
+
+            <div class="stats-summary">
+                <div class="summary-card">
+                    <i class="fas fa-calendar-day"></i>
+                    <div>
+                        <h4>Total Días</h4>
+                        <p id="totalDays">0</p>
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <i class="fas fa-coins"></i>
+                    <div>
+                        <h4>Promedio Diario</h4>
+                        <p id="dailyAverage">$0</p>
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <i class="fas fa-chart-line"></i>
+                    <div>
+                        <h4>Mejor Mes</h4>
+                        <p id="bestMonth">-</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="report-card">
+                <h3><i class="fas fa-chart-line"></i> Tendencia</h3>
+                <canvas id="trendChart"></canvas>
+            </div>
+
+            <div class="report-grid">
+                <div class="report-card">
+                    <h3><i class="fas fa-calendar-day"></i> Diario</h3>
+                    <div id="dailyReport" class="report-table"></div>
+                </div>
+                <div class="report-card">
+                    <h3><i class="fas fa-calendar-month"></i> Mensual</h3>
+                    <div id="monthlyReport" class="report-table"></div>
+                </div>
+                <div class="report-card">
+                    <h3><i class="fas fa-tags"></i> Categorías</h3>
+                    <div id="categoryReport" class="report-table"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección Categorías -->
+        <div id="categoriesSection" class="section">
+            <div class="section-header">
+                <h1><i class="fas fa-tags"></i> Categorías</h1>
+            </div>
+            <div id="categoriesStats" class="categories-grid"></div>
+        </div>
+    </div>
+
+    <!-- Modal Nuevo Movimiento -->
     <div id="transactionModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -259,7 +268,7 @@
             </div>
             <form id="transactionForm">
                 <div class="form-group">
-                    <label><i class="fas fa-tag"></i> Tipo</label>
+                    <label>Tipo</label>
                     <div class="type-selector">
                         <button type="button" id="typeIncomeBtn" class="type-btn active" onclick="selectTransactionType('income')">
                             <i class="fas fa-arrow-up"></i> Ingreso
@@ -272,12 +281,12 @@
                 </div>
 
                 <div class="form-group">
-                    <label><i class="fas fa-font"></i> Descripción</label>
-                    <input type="text" id="desc" placeholder="Ej: Pago de sueldo, Supermercado..." required>
+                    <label>Descripción</label>
+                    <input type="text" id="desc" placeholder="Ej: Salario, Comida..." required>
                 </div>
 
                 <div class="form-group">
-                    <label><i class="fas fa-tags"></i> Categoría</label>
+                    <label>Categoría</label>
                     <div class="category-selector" id="categorySelector"></div>
                     <select id="category" hidden required>
                         <option value="">Seleccionar</option>
@@ -286,28 +295,26 @@
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label><i class="fas fa-dollar-sign"></i> Monto</label>
+                        <label>Monto</label>
                         <div class="amount-input">
                             <span>$</span>
                             <input type="number" id="amount" placeholder="0.00" step="0.01" required>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label><i class="fas fa-calendar"></i> Fecha</label>
+                        <label>Fecha</label>
                         <input type="date" id="date" required>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label><i class="fas fa-sticky-note"></i> Notas <span>(opcional)</span></label>
-                    <textarea id="notes" placeholder="Agrega notas adicionales..." rows="2"></textarea>
+                    <label>Notas <span>(opcional)</span></label>
+                    <textarea id="notes" placeholder="Notas adicionales..." rows="2"></textarea>
                 </div>
 
                 <div class="modal-actions">
                     <button type="button" onclick="closeModal()" class="btn-secondary">Cancelar</button>
-                    <button type="submit" class="btn-primary">
-                        <i class="fas fa-save"></i> Guardar Movimiento
-                    </button>
+                    <button type="submit" class="btn-primary">Guardar</button>
                 </div>
             </form>
         </div>

@@ -844,3 +844,48 @@ window.onclick = function(event) {
     const modal = document.getElementById('transactionModal');
     if (event.target === modal) closeModal();
 }
+// ========== FUNCIONES PARA MENÚ RESPONSIVO ==========
+function toggleMenu() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('menuOverlay');
+    
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('active');
+    
+    // Evitar scroll del body cuando el menú está abierto
+    if (sidebar.classList.contains('open')) {
+        document.body.style.overflow = 'hidden';
+    } else {
+        document.body.style.overflow = '';
+    }
+}
+
+function closeMenu() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('menuOverlay');
+    
+    sidebar.classList.remove('open');
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+function showMobileUserMenu() {
+    // Opcional: mostrar menú de usuario en móvil
+    if (confirm('¿Cerrar sesión?')) {
+        logout();
+    }
+}
+
+// Detectar si es móvil y ajustar comportamiento
+function isMobile() {
+    return window.innerWidth <= 768;
+}
+
+// Cerrar menú al redimensionar a escritorio
+window.addEventListener('resize', function() {
+    if (window.innerWidth > 768) {
+        closeMenu();
+        document.body.style.overflow = '';
+    }
+});
+
