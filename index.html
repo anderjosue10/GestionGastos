@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>💰 Mi Gestor Financiero</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="auth-page">
+    <div class="auth-container">
+        <div class="auth-card glass-effect">
+            <div class="auth-header">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <h1>Finanzas<span>Pro</span></h1>
+                </div>
+                <p class="tagline">Controla tu dinero de forma inteligente</p>
+            </div>
+            
+            <div class="auth-tabs">
+                <button class="auth-tab-btn active" onclick="showAuthTab('login')">
+                    <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                </button>
+                <button class="auth-tab-btn" onclick="showAuthTab('register')">
+                    <i class="fas fa-user-plus"></i> Crear Cuenta
+                </button>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm" class="auth-form active">
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="loginUsername" placeholder="Usuario" required autocomplete="username">
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="loginPassword" placeholder="Contraseña" required autocomplete="current-password">
+                </div>
+                
+                <!-- Botón de huella digital -->
+                <button type="button" id="fingerprintBtn" class="fingerprint-btn" onclick="authenticateWithFingerprint()">
+                    <i class="fas fa-fingerprint"></i> Acceder con Huella Digital
+                </button>
+                
+                <div class="divider">
+                    <span>o</span>
+                </div>
+                
+                <button type="submit" class="auth-btn">
+                    <i class="fas fa-arrow-right"></i> Iniciar Sesión
+                </button>
+                <div id="loginMessage" class="message"></div>
+            </form>
+
+            <!-- Register Form -->
+            <form id="registerForm" class="auth-form">
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="regUsername" placeholder="Nombre de usuario" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="regEmail" placeholder="Correo electrónico" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="regPassword" placeholder="Contraseña" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-check-circle"></i>
+                    <input type="password" id="confirmPassword" placeholder="Confirmar contraseña" required>
+                </div>
+                
+                <!-- Opcional: registrar huella -->
+                <div class="fingerprint-option">
+                    <label>
+                        <input type="checkbox" id="registerFingerprint">
+                        <i class="fas fa-fingerprint"></i> Registrar huella digital (opcional)
+                    </label>
+                </div>
+                
+                <button type="submit" class="auth-btn">
+                    <i class="fas fa-user-shield"></i> Crear Mi Cuenta
+                </button>
+                <div id="regMessage" class="message"></div>
+            </form>
+        </div>
+        
+        <div class="auth-footer">
+            <p><i class="fas fa-shield-alt"></i> Datos encriptados localmente | <i class="fas fa-fingerprint"></i> Compatible con biometría</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
