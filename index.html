@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>💰 Mi Gestor Financiero</title>
+    <title>💰 Mi Gestor Financiero Personal</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="auth-page">
     <div class="auth-container">
-        <div class="auth-card glass-effect">
+        <div class="auth-card">
             <div class="auth-header">
                 <div class="logo">
                     <div class="logo-icon">
@@ -41,7 +41,6 @@
                     <input type="password" id="loginPassword" placeholder="Contraseña" required autocomplete="current-password">
                 </div>
                 
-                <!-- Botón de huella digital -->
                 <button type="button" id="fingerprintBtn" class="fingerprint-btn" onclick="authenticateWithFingerprint()">
                     <i class="fas fa-fingerprint"></i> Acceder con Huella Digital
                 </button>
@@ -75,7 +74,6 @@
                     <input type="password" id="confirmPassword" placeholder="Confirmar contraseña" required>
                 </div>
                 
-                <!-- Opcional: registrar huella -->
                 <div class="fingerprint-option">
                     <label>
                         <input type="checkbox" id="registerFingerprint">
